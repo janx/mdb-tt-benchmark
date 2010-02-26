@@ -101,5 +101,5 @@ puts start_time.strftime("%H:%M:%S - 0 record - 0 second")
 end
 
 end_time = Time.now
-interval = (end_time.to_f - start_time.to_f).round(3)
+interval = (end_time.to_f - start_time.to_f).round
 puts end_time.strftime("%H:%M:%S - #{insert_count} records - #{interval}s (completed)")

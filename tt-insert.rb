@@ -5,7 +5,7 @@ include TokyoTyrant
 db = RDBTBL::new
 
 # connect to the server
-if !db.open("127.0.0.1", 1979)
+if !db.open("127.0.0.1", 1978)
     ecode = db.ecode
     STDERR.printf("open error: %s\n", db.errmsg(ecode))
     exit
@@ -112,5 +112,5 @@ puts start_time.strftime("%H:%M:%S - 0 record - 0 second")
 end
 
 end_time = Time.now
-interval = (end_time.to_f - start_time.to_f).round(3)
+interval = (end_time.to_f - start_time.to_f).round
 puts end_time.strftime("%H:%M:%S - #{insert_count} records - #{interval}s (completed)")
