@@ -20,16 +20,16 @@ if ARGV.size == 1 && ARGV[0] == "init"
 
     db.setindex("UserID", RDBTBL::ITDECIMAL | RDBTBL::ITKEEP)
     puts "index for UserID created."
-    
+
     db.setindex("CategoryID", RDBTBL::ITDECIMAL | RDBTBL::ITKEEP)
     puts "index for CategoryID created."
-    
+
     db.setindex("CreateTime", RDBTBL::ITDECIMAL | RDBTBL::ITKEEP)
     puts "index for CreateTime created."
-    
+
     db.setindex("Tags", RDBTBL::ITTOKEN | RDBTBL::ITKEEP)
     puts "index for Tags created."
-    
+
     puts "initialize completed."
     exit
 end
@@ -47,9 +47,9 @@ chars.each { |x|
 if ARGV.size == 2
     begin_cat_id = ARGV[0].to_i
     end_cat_id = ARGV[1].to_i
-elsif
+else
     begin_cat_id = 1
-    end_cat_id = 20000
+    end_cat_id = 10000
 end
 
 tag_index = 0;
@@ -63,21 +63,21 @@ puts start_time.strftime("%H:%M:%S - 0 record - 0 second")
 
 (begin_cat_id .. end_cat_id).each do |cat_id| # 20000 × 55 = 1,100,000
     count = (cat_id % 10 + 1) * 10
-    count.times do 
+    count.times do
         title = "This is title of news #{id}"
         create_time = Time.at(begin_seconds + id)
         user_id = cat_id % user_count
         source = "source of news #{id}"
         source_url = "http://www.cnblogs.com/JeffreyZhao/"
         status = 1
-        
+
         tags = ["Tag_#{cat_id % 3}_#{id % 5}"];
         tag_count = id % 5 + 1
         tag_count.times do
             tags << all_tags[tag_index % all_tags.size]
             tag_index = tag_index + 1
         end
-        
+
         db.put("news_#{id}", {
             "ID" => id.to_s,
             "Title" => title,
@@ -102,15 +102,15 @@ puts start_time.strftime("%H:%M:%S - 0 record - 0 second")
 =end
         insert_count = insert_count + 1
         id = id + 1
-        
+
         if (insert_count % (100 * 100) == 0)
             end_time = Time.now
-            interval = (end_time.to_f - start_time.to_f).round(3)
-            puts end_time.strftime("%H:%M:%S - #{insert_count} records - #{interval} seconds")
+            interval = (end_time.to_f - start_time.to_f).round
+            puts end_time.strftime("%H:%M:%S - #{insert_count} records - #{interval}s")
         end
     end
 end
 
 end_time = Time.now
 interval = (end_time.to_f - start_time.to_f).round(3)
-puts end_time.strftime("%H:%M:%S - #{insert_count} records - #{interval} seconds (completed)")
+puts end_time.strftime("%H:%M:%S - #{insert_count} records - #{interval}s (completed)")
