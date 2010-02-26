@@ -14,9 +14,9 @@ end
 if ARGV.size == 2
 	record_count = ARGV[0].to_i
 	times_to_update = ARGV[1].to_i
-elsif
-	record_count = 110 * 100 * 100
-	times_to_update = 100 * 100 * 100
+else
+	record_count = 55_0000
+	times_to_update = 50_0000
 end
 
 start_time = Time.now.to_i
@@ -42,6 +42,6 @@ times_to_update.times do
 	update_count = update_count + 1
 	if (update_count % 10000 == 0)
 		end_time = Time.now.to_i
-		puts "#{update_count} updates: #{end_time - start_time} seconds"
+		puts "#{update_count} updates: #{end_time - start_time}s"
 	end	
 end
