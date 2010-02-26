@@ -25,7 +25,7 @@ end
 if ARGV.size == 2
     begin_cat_id = ARGV[0].to_i
     end_cat_id = ARGV[1].to_i
-elsif
+else
     begin_cat_id = 1
     end_cat_id = 20000
 end
