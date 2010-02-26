@@ -27,7 +27,7 @@ if ARGV.size == 2
     end_cat_id = ARGV[1].to_i
 else
     begin_cat_id = 1
-    end_cat_id = 20000
+    end_cat_id = 10000
 end
 
 all_tags = [];
