@@ -94,12 +94,12 @@ puts start_time.strftime("%H:%M:%S - 0 record - 0 second")
         
         if (insert_count % (100 * 100) == 0)
             end_time = Time.now
-            interval = (end_time.to_f - start_time.to_f).round(3)
-            puts end_time.strftime("%H:%M:%S - #{insert_count} records - #{interval} seconds")
+            interval = (end_time.to_f - start_time.to_f).round
+            puts end_time.strftime("%H:%M:%S - #{insert_count} records - #{interval}s ")
         end
     end
 end
 
 end_time = Time.now
 interval = (end_time.to_f - start_time.to_f).round(3)
-puts end_time.strftime("%H:%M:%S - #{insert_count} records - #{interval} seconds (completed)")
+puts end_time.strftime("%H:%M:%S - #{insert_count} records - #{interval}s (completed)")
