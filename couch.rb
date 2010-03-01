@@ -1,4 +1,5 @@
-require 'net/http'
+require 'rubygems'
+require 'curb'
 
 module Couch
   class Server
@@ -9,40 +10,40 @@ module Couch
     end
 
     def delete(uri)
-      request(Net::HTTP::Delete.new(uri))
+      raise "Not supported"
     end
 
-    def get(uri)
-      request(Net::HTTP::Get.new(uri))
+    def get(path)
+      request to_uri(path)
     end
 
-    def put(uri, json)
-      req = Net::HTTP::Put.new(uri)
-      req["content-type"] = "application/json"
-      req.body = json
-      request(req)
+    def put(path, json)
+      c = Curl::Easy.new(to_uri(path)) do |curl|
+        curl.headers["content-type"] = "application/json"
+      end
+      c.http_put(json)
     end
 
-    def post(uri, json)
-      req = Net::HTTP::Post.new(uri)
-      req["content-type"] = "application/json"
-      req.body = json
-      request(req)
+    def post(path, json)
+      c = Curl::Easy.new(to_uri(path)) do |curl|
+        curl.headers["content-type"] = "application/json"
+      end
+      c.http_post(json)
     end
 
     def request(req)
-      res = Net::HTTP.start(@host, @port) { |http|http.request(req) }
-      if (not res.kind_of?(Net::HTTPSuccess))
-        handle_error(req, res)
-      end
-      res
+      Curl::Easy.perform(to_uri(req))
     end
 
     private
 
-    def handle_error(req, res)
-      e = RuntimeError.new("#{res.code}:#{res.message}\nMETHOD:#{req.method}\nURI:#{req.path}\n#{res.body}")
-      raise e
+    def to_uri(request)
+      request = "/#{request}" if request[0,1] != "/"
+      "http://#{@host}:#{@port}#{request}"
+    end
+
+    def handle_error(uri)
+      raise "Failed request on uri: #{uri}"
     end
   end
 end
